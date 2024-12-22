@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Package, MapPin, Clock, ArrowRight } from 'lucide-react';
 import TrackingTimeline from '../components/tracking/TrackingTimeline';
 import LiveMap from '../components/tracking/LiveMap';
+import WeatherImpact from '../components/tracking/WeatherImpact';
 import DeliveryPredictions from '../components/analytics/DeliveryPredictions';
 import RouteOptimization from '../components/analytics/RouteOptimization';
+import ShipmentAnalytics from '../components/analytics/ShipmentAnalytics';
 import { mockTrackingData } from '../utils/mockData';
 
 export default function TrackParcel() {
@@ -73,8 +75,7 @@ export default function TrackParcel() {
               <TrackingTimeline history={trackingResult.history} />
             </div>
             
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-2xl font-bold text-blue-900 mb-6">Live Tracking</h2>
+            <div className="space-y-8">
               <LiveMap
                 currentLocation={{
                   latitude: 1.3521,
@@ -87,6 +88,16 @@ export default function TrackParcel() {
                   name: 'Hong Kong'
                 }}
               />
+              
+              <WeatherImpact
+                location={trackingResult.currentLocation}
+                conditions={{
+                  temperature: 28,
+                  weather: 'cloudy',
+                  impact: 'low',
+                  delay: 1
+                }}
+              />
             </div>
           </div>
 
@@ -94,6 +105,8 @@ export default function TrackParcel() {
             <DeliveryPredictions />
             <RouteOptimization />
           </div>
+
+          <ShipmentAnalytics />
         </div>
       )}
     </div>
