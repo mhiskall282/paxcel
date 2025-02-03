@@ -1,0 +1,40 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/mnt/c/Users/user/Desktop/eth-iopia-residency/paxcel/blockchain/contracts/Shipping.sol": {
+      "lastModificationDate": 1738451218245,
+      "contentHash": "9c8a2701da77f844681c6d617a9fc08c",
+      "sourceName": "contracts/Shipping.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ShippingContract"
+      ]
+    }
+  }
+}
