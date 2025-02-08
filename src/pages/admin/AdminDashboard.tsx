@@ -1,6 +1,8 @@
 import React from 'react';
 import AdminSidebar from '../../components/admin/AdminSidebar';
 import { Package, TrendingUp, Users, AlertTriangle } from 'lucide-react';
+import ShipmentMap from '../../components/maps/ShipmentMap';
+import AdvancedAnalytics from '../../components/analytics/AdvancedAnalytics';
 
 export default function AdminDashboard() {
   const stats = [
@@ -9,6 +11,29 @@ export default function AdminDashboard() {
     { name: 'Active Users', value: '892', icon: Users, change: '+5%' },
     { name: 'Pending Issues', value: '23', icon: AlertTriangle, change: '-15%' },
   ];
+
+  const shipmentLocations = {
+    currentLocation: {
+      lat: 1.3521,
+      lng: 103.8198,
+      name: 'Singapore Hub',
+      status: 'Processing'
+    },
+    destination: {
+      lat: 22.3193,
+      lng: 114.1694,
+      name: 'Hong Kong Distribution Center',
+      status: 'Awaiting Arrival'
+    },
+    waypoints: [
+      {
+        lat: 13.7563,
+        lng: 100.5018,
+        name: 'Bangkok Transit',
+        status: 'Next Stop'
+      }
+    ]
+  };
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -38,7 +63,18 @@ export default function AdminDashboard() {
             })}
           </div>
 
-          {/* Add more dashboard components here */}
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold mb-4">Active Shipments Map</h2>
+            <div className="bg-white p-4 rounded-lg shadow">
+              <ShipmentMap
+                currentLocation={shipmentLocations.currentLocation}
+                destination={shipmentLocations.destination}
+                waypoints={shipmentLocations.waypoints}
+              />
+            </div>
+          </div>
+
+          <AdvancedAnalytics />
         </div>
       </div>
     </div>
