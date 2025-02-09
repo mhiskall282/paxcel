@@ -6,16 +6,26 @@ import { useAuth } from '../../hooks/useAuth';
 export default function AdminLogin() {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const [credentials, setCredentials] = useState({ username: 'admin', password: 'admin' });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const success = login(credentials.username, credentials.password);
-    if (success) {
-      navigate('/admin');
-    } else {
-      setError('Invalid credentials');
+    setLoading(true);
+    setError('');
+    
+    try {
+      const success = login(credentials.username, credentials.password);
+      if (success) {
+        navigate('/admin', { replace: true });
+      } else {
+        setError('Invalid credentials');
+      }
+    } catch {
+      setError('An error occurred during login');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -64,9 +74,10 @@ export default function AdminLogin() {
 
             <button
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-900 hover:bg-blue-800"
+              disabled={loading}
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-900 hover:bg-blue-800 disabled:opacity-50"
             >
-              Sign in
+              {loading ? 'Signing in...' : 'Sign in'}
             </button>
           </form>
         </div>
