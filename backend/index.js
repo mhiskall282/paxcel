@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const swaggerSetup = require("./config/swagger.js");
 const mainRoutes = require("./routes/main.js");
 const authRoutes = require("./routes/authRoutes");
-const sequelize = require("./config/dbconfig.js")
+const sequelize = require("./config/dbconfig.js");
 const cors = require("cors");
 
 require("dotenv").config();
@@ -22,7 +22,7 @@ app.use(
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // Replace with your client's origin
+    origin: ["http://localhost:3000", "http://localhost:5173"], // Replace with your client's origin
   })
 );
 
