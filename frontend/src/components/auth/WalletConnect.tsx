@@ -1,54 +1,72 @@
-import React, { useState } from 'react';
-import { Wallet, AlertCircle } from 'lucide-react';
+import { createThirdwebClient } from "thirdweb";
+import { darkTheme } from "thirdweb/react";
+import { ConnectWallet, } from "@thirdweb-dev/react";
+import {
+  inAppWallet,
+  createWallet,
+} from "thirdweb/wallets";
+import { ethereum } from "thirdweb/chains";
+
+const client = createThirdwebClient({
+  clientId: import.meta.env.VITE_THIRDWEB_CLIENT_ID,
+});
+
+const wallets = [
+  inAppWallet({
+    auth: {
+      options: ["google", "email", "passkey", "phone"],
+    },
+  }),
+  createWallet("com.coinbase.wallet"),
+  createWallet("me.rainbow"),
+  createWallet("io.rabby"),
+  createWallet("io.zerion.wallet"),
+];
 
 export default function WalletConnect() {
-  const [connecting, setConnecting] = useState(false);
-
-  const connectWallet = async (type: string) => {
-    setConnecting(true);
-    try {
-      // Simulate wallet connection
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      console.log(`Connected to ${type}`);
-    } catch (error) {
-      console.error('Wallet connection error:', error);
-    } finally {
-      setConnecting(false);
-    }
-  };
-
   return (
-    <div className="space-y-4">
-      <div className="bg-blue-50 p-4 rounded-md">
-        <div className="flex items-start">
-          <AlertCircle className="h-5 w-5 text-blue-600 mt-0.5 mr-2" />
-          <p className="text-sm text-blue-700">
-            Connect your wallet to access blockchain-powered features
-          </p>
-        </div>
-      </div>
+    <ConnectWallet
+      client={client}
+      wallets={wallets}
+      connectButton={{ label: "Sign In" }}
+      connectModal={{
+        size: "wide",
+        title: "Sign In",
+      }}
+      accountAbstraction={{
+        chain: ethereum, // replace with the chain you want
+        sponsorGas: true,
+      }}
+      // auth={{
+      //   async doLogin(params) {
+      //     // call your backend to verify the signed payload passed in params
+      //   },
+      //   async doLogout() {
+      //     // call your backend to logout the user if needed
+      //   },
+      //   async getLoginPayload(params) {
+      //     // call your backend and return the payload
+      //     const response = await fetch('/api/auth/login-payload', {
+      //       method: 'POST',
+      //       headers: {
+      //         'Content-Type': 'application/json',
+      //       },
+      //       body: JSON.stringify({
+      //         address: params.address,
+      //         chainId: params.chainId,
+      //       }),
+      //     });
 
-      <button
-        onClick={() => connectWallet('metamask')}
-        disabled={connecting}
-        className="w-full flex items-center justify-center px-4 py-2 border rounded-md hover:bg-gray-50"
-      >
-        <img
-          src="https://raw.githubusercontent.com/MetaMask/brand-resources/master/SVG/metamask-fox.svg"
-          alt="MetaMask"
-          className="h-5 w-5 mr-2"
-        />
-        {connecting ? 'Connecting...' : 'Connect MetaMask'}
-      </button>
+      //     if (!response.ok) {
+      //       throw new Error('Failed to fetch login payload');
+      //     }
 
-      <button
-        onClick={() => connectWallet('walletconnect')}
-        disabled={connecting}
-        className="w-full flex items-center justify-center px-4 py-2 border rounded-md hover:bg-gray-50"
-      >
-        <Wallet className="h-5 w-5 text-blue-600 mr-2" />
-        WalletConnect
-      </button>
-    </div>
+      //     return await response.json(); // Ensure this returns the correct LoginPayload structure
+      //   },
+      //   async isLoggedIn() {
+      //     // call your backend to check if the user is logged in
+      //   },
+      // }}
+    />
   );
 }
