@@ -1,6 +1,6 @@
-import { ThirdwebProvider,  } from "@thirdweb-dev/react";
+//import { ThirdwebProvider,  } from "@thirdweb-dev/react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Mumbai } from "@thirdweb-dev/chains";
+//import { Mumbai } from "@thirdweb-dev/chains";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import Home from "./pages/Home";
@@ -16,36 +16,24 @@ import AdminShipments from "./pages/admin/AdminShipments";
 import AdminAnalytics from "./pages/admin/AdminAnalytics";
 import AdminBlockchain from "./pages/admin/AdminBlockchain";
 import AdminUsers from "./pages/admin/AdminUsers";
+import AgentDashboard from './pages/agent/AgentDashboard';
+//import AgentShipments from './pages/agent/AgentShipments';
+import ClearingDashboard from './pages/clearing/ClearingDashboard';
+//import ClearingRequests from './pages/clearing/ClearingRequests';
+import AiAssistant from './pages/ai/AiAssistant';
+import AiAnalytics from './pages/ai/AiAnalytics';
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 //import WalletConnect from "./components/auth/WalletConnect";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient();
 
-/*export default defineConfig({
-  resolve: {
-    alias: {
-      buffer: 'buffer/',
-    },
-  },
-  define: {
-    'global': {},
-    'process': {
-      env: {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-      },
-    },
-  },
-  plugins: [react()],
-}); */
+
 
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-    <ThirdwebProvider 
-      clientId={import.meta.env.VITE_THIRDWEB_CLIENT_ID}
-      activeChain={Mumbai}
-    > 
+  
       <Router>
         <div className="flex flex-col min-h-screen">
           <Navbar />
@@ -58,6 +46,9 @@ export default function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/about" element={<About />} />
               <Route path="/docs" element={<ApiDocs />} />
+
+
+
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
               <Route path="/admin/shipments" element={<ProtectedRoute><AdminShipments /></ProtectedRoute>} />
@@ -65,12 +56,26 @@ export default function App() {
               <Route path="/admin/blockchain" element={<ProtectedRoute><AdminBlockchain /></ProtectedRoute>} />
               <Route path="/admin/users" element={<ProtectedRoute><AdminUsers /></ProtectedRoute>} />
               <Route path="*" element={<NotFound />} />
+
+
+              {/* Agent Routes */}
+            <Route path="/agent" element={<ProtectedRoute><AgentDashboard /></ProtectedRoute>} />
+            <Route path="/agent/shipments" element={<ProtectedRoute><AgentShipments /></ProtectedRoute>} />
+            
+            {/* Clearing Officer Routes */}
+            <Route path="/clearing" element={<ProtectedRoute><ClearingDashboard /></ProtectedRoute>} />
+            <Route path="/clearing/requests" element={<ProtectedRoute><ClearingRequests /></ProtectedRoute>} />
+            
+            {/* AI Features */}
+            <Route path="/ai/assistant" element={<AiAssistant />} />
+            <Route path="/ai/analytics" element={<AiAnalytics />} />
+            
             </Routes>
           </main>
           <Footer />
         </div>
       </Router>
-    </ThirdwebProvider>
+  
     </QueryClientProvider>
   );
 }

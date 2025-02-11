@@ -28,49 +28,45 @@ export default function WalletConnect() {
     <ConnectWallet
       client={client}
       wallets={wallets}
-      theme={darkTheme({
-        colors: { accentText: "hsl(216, 100%, 60%)" },
-      })}
       connectButton={{ label: "Sign In" }}
       connectModal={{
-        size: "compact",
+        size: "wide",
         title: "Sign In",
-        titleIcon: "https://paxcel.vercel.app",
       }}
       accountAbstraction={{
         chain: ethereum, // replace with the chain you want
         sponsorGas: true,
       }}
-      auth={{
-        async doLogin(params) {
-          // call your backend to verify the signed payload passed in params
-        },
-        async doLogout() {
-          // call your backend to logout the user if needed
-        },
-        async getLoginPayload(params) {
-          // call your backend and return the payload
-          const response = await fetch('/api/auth/login-payload', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              address: params.address,
-              chainId: params.chainId,
-            }),
-          });
+      // auth={{
+      //   async doLogin(params) {
+      //     // call your backend to verify the signed payload passed in params
+      //   },
+      //   async doLogout() {
+      //     // call your backend to logout the user if needed
+      //   },
+      //   async getLoginPayload(params) {
+      //     // call your backend and return the payload
+      //     const response = await fetch('/api/auth/login-payload', {
+      //       method: 'POST',
+      //       headers: {
+      //         'Content-Type': 'application/json',
+      //       },
+      //       body: JSON.stringify({
+      //         address: params.address,
+      //         chainId: params.chainId,
+      //       }),
+      //     });
 
-          if (!response.ok) {
-            throw new Error('Failed to fetch login payload');
-          }
+      //     if (!response.ok) {
+      //       throw new Error('Failed to fetch login payload');
+      //     }
 
-          return await response.json(); // Ensure this returns the correct LoginPayload structure
-        },
-        async isLoggedIn() {
-          // call your backend to check if the user is logged in
-        },
-      }}
+      //     return await response.json(); // Ensure this returns the correct LoginPayload structure
+      //   },
+      //   async isLoggedIn() {
+      //     // call your backend to check if the user is logged in
+      //   },
+      // }}
     />
   );
 }
