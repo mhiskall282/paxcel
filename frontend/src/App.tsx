@@ -60,11 +60,11 @@ export default function App() {
 
               {/* Agent Routes */}
             <Route path="/agent" element={<ProtectedRoute><AgentDashboard /></ProtectedRoute>} />
-            <Route path="/agent/shipments" element={<ProtectedRoute><AgentShipments /></ProtectedRoute>} />
+            {/*<Route path="/agent/shipments" element={<ProtectedRoute><AgentShipments /></ProtectedRoute>} />*/}
             
             {/* Clearing Officer Routes */}
             <Route path="/clearing" element={<ProtectedRoute><ClearingDashboard /></ProtectedRoute>} />
-            <Route path="/clearing/requests" element={<ProtectedRoute><ClearingRequests /></ProtectedRoute>} />
+            {/*<Route path="/clearing/requests" element={<ProtectedRoute><ClearingRequests /></ProtectedRoute>} />*/}
             
             {/* AI Features */}
             <Route path="/ai/assistant" element={<AiAssistant />} />
