@@ -1,5 +1,5 @@
 const User = require('../models/users');
-const validEmail = require("../utils/EmailValidator")
+const validEmail = require("../utils/validators")
 
 const getUsers = async (req, res) => {
   try {

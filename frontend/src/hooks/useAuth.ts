@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { useState } from "react";
+import { LoginApi, RegisterApi } from "./apiHooks";
 
 interface AuthState {
   isAuthenticated: boolean;
@@ -8,31 +8,23 @@ interface AuthState {
   logout: () => Promise<void>;
 }
 
-interface jwtToken {
-  token: string | null;
-}
-// const token = create<jwtToken>(() => {
-//   localStorage.setItem("token", token);
-// });
-const apiEndpoint = "http://localhost:3000/api/";
-
 export const useAuth = create<AuthState>((set) => ({
   isAuthenticated: false,
   user: null,
   login: async (email: string, password: string) => {
     try {
-      const response = await fetch(`${apiEndpoint}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const request = await LoginApi({email,password});
+      const response = request.data
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        set({ isAuthenticated: true, user: data.user });
+      if (request.status == 200) {
+        const token = response.token;
+        const user = response.user;
+
+        // Store token and user in localStorage
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+
+        set({ isAuthenticated: true, user: response.user });
         return true;
       }
     } catch (error) {
@@ -43,12 +35,6 @@ export const useAuth = create<AuthState>((set) => ({
   },
   logout: async () => {
     try {
-      const response = await fetch("https://your-api-endpoint.com/logout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
 
       if (response.ok) {
         set({ isAuthenticated: false, user: null });

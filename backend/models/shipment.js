@@ -1,25 +1,20 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/dbconfig');
 
-const User = sequelize.define('User', {
+const shipment = sequelize.define('shipment', {
   name: {
-    type: DataTypes.STRING,
+    trackingNumber: DataTypes.STRING,
     allowNull: false,
     unique: true,
   },
-  email: {
+  status: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
+    defaultValue: "created"
   },
-  password: {
-    type: DataTypes.STRING,
+  estimatedDelivery: {
+    type: DataTypes.DATE,
     allowNull: false,
-  },
-  role:{
-    type: DataTypes.STRING,
-    allowNull: false,
-    defaultValue: "user",
   },
 }, {
   timestamps: true,

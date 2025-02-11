@@ -1,3 +1,5 @@
+import axios from "axios"
+
 // use backend API
 const apiEndpoint = "http://localhost:3000/api";
 
@@ -12,29 +14,23 @@ interface RegisterData {
   email: string;
   password: string;
 }
-// AUTHENTICATION
-export const LoginApi = (data: LoginData) => {
-  const req = fetch(`${apiEndpoint}/auth/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
 
+interface headers {
+  type: string;
+  auth: string;
+};
+
+// AUTHENTICATION
+// LOGIN
+export const LoginApi = (data: LoginData) => {
+  const req = axios.post(`${apiEndpoint}/auth/login`, data);
   return req;
 };
-// LOGIN
 
 // REGISTER
 export const RegisterApi = (data: RegisterData) => {
-  const req = fetch(`${apiEndpoint}/auth/register`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-
+  const req = axios.post(`${apiEndpoint}/auth/register`, data);
   return req;
 };
+
+

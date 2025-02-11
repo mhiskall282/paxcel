@@ -1,9 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const swaggerSetup = require("./config/swagger.js");
+
 const mainRoutes = require("./routes/main.js");
 const authRoutes = require("./routes/authRoutes");
+const shipmentRoute = require("./routes/shipmentRoutes.js");
+
 const sequelize = require("./config/dbconfig.js");
+
 const cors = require("cors");
 
 require("dotenv").config();
@@ -27,8 +31,10 @@ app.use(
 );
 
 app.use("/api", mainRoutes);
-
+app.use("/api", shipmentRoute);
 app.use("/api", authRoutes);
+
+
 
 app.get("/", (request, response) => {
   response.json({ info: "Node.js, Express, and Postgres API" });

@@ -9,23 +9,33 @@ export default function EmailSignup() {
     password: "",
   });
 
+  const [error,setError] = useState(null)
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const resp = await RegisterApi(formData);
-      if (resp.ok) {
+      const request = await RegisterApi(formData);
+      const resposne = request.response.json()
+
+      if (response.status == 200) {
         console.log(resp);
       } else {
-        console.error("Registration failed:", resp.statusText);
+        console.error("Registration failed:", resposne.message);
+        setError(response.data.error)
       }
+
     } catch (error) {
-      console.log("error", error);
+      setError(error.response.data.error)
+      console.log("status", error.status);
+      console.log("error", error.response.data.error);
     }
-    console.log("Email signup:", formData);
+    // console.log("Email signup:", formData);
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      {/* general error handlin*/}
+      { error && ( <p className="block text-sm font-medium text-red-700">{error}</p> )  }
       <div>
         <label className="block text-sm font-medium text-gray-700">
           Full Name

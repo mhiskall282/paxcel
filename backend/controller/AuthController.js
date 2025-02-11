@@ -2,7 +2,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/users');
-const validEmail  = require('../utils/EmailValidator');
+const validEmail  = require('../utils/validators');
 
 const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
@@ -12,7 +12,7 @@ const registerUser = async (req, res) => {
   }
   
   if (!validEmail(email)) {
-    return res.status(400).json({ error: 'Please provide a valid email address.' });
+    return res.status(400).json({ email: 'Please provide a valid email address.' });
   }
 
   try {
@@ -51,8 +51,15 @@ const loginUser = async (req, res) => {
     const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
       expiresIn: '1h',
     });
-
-    res.status(200).json({ token });
+    
+    res.status(200).json({ 
+      token,
+      user:{
+        id:user["id"],
+        email:user["email"],
+        role:user["role"]
+      } 
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'An error occurred while logging in the user' });
@@ -62,5 +69,4 @@ const loginUser = async (req, res) => {
 module.exports = {
   registerUser,
   loginUser,
-  // Export other controller methods...
 };
