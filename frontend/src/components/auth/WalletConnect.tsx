@@ -7,9 +7,9 @@ import {
 } from "thirdweb/wallets";
 import { ethereum } from "thirdweb/chains";
 
-const client = createThirdwebClient({
-  clientId: import.meta.env.VITE_THIRDWEB_CLIENT_ID,
-});
+// const client = createThirdwebClient({
+//   clientId: import.meta.env.VITE_THIRDWEB_CLIENT_ID,
+// });
 
 const wallets = [
   inAppWallet({
