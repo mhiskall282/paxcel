@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Truck, Menu, X } from 'lucide-react';
-import WalletConnect from "../auth/WalletConnect";
+//import WalletConnect from "../auth/WalletConnect";
 
 
 export default function Navbar() {
@@ -42,7 +42,7 @@ export default function Navbar() {
               </Link>
             ))}
             {/* WalletConnect Button */}
-            <WalletConnect />
+            {/* <WalletConnect /> */}
           </div>
 
           {/* Mobile Menu Button */}

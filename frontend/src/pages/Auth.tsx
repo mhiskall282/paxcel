@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Github, Mail, Key, Wallet } from 'lucide-react';
 import SocialAuth from '../components/auth/SocialAuth';
-import WalletConnect from '../components/auth/WalletConnect';
+// import WalletConnect from '../components/auth/WalletConnect';
 import EmailSignup from '../components/auth/EmailSignup';
 
 export default function Auth() {
@@ -39,7 +39,7 @@ export default function Auth() {
 
           {authMethod === 'email' && <EmailSignup />}
           {authMethod === 'social' && <SocialAuth />}
-          {authMethod === 'wallet' && <WalletConnect />}
+          {/* {authMethod === 'wallet' && <WalletConnect />} */}
         </div>
       </div>
     </div>
