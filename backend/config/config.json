@@ -1,16 +1,10 @@
 {
   "development": {
-    "username": "neondb_owner",
-    "password": "npg_8t6LKOSDHomj",
-    "database": "neondb",
-    "host": "ep-summer-paper-a468u2lw-pooler.us-east-1.aws.neon.tech",
-    "dialect": "postgres",
-    "dialectOptions": {
-      "ssl": {
-        "require": true,
-        "rejectUnauthorized": false
-      }
-    }
+    "username": "postgres",
+    "password": "2001",
+    "database": "paxcel",
+    "host": "localhost",
+    "dialect": "postgres" 
   },
   "test": {
     "username": "neondb_owner",
