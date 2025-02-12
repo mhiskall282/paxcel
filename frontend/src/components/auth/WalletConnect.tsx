@@ -25,18 +25,18 @@ const wallets = [
 
 export default function WalletConnect() {
   return (
-    <ConnectWallet
-      client={client}
-      wallets={wallets}
-      connectButton={{ label: "Sign In" }}
-      connectModal={{
-        size: "wide",
-        title: "Sign In",
-      }}
-      accountAbstraction={{
-        chain: ethereum, // replace with the chain you want
-        sponsorGas: true,
-      }}
+    // <ConnectWallet
+    //   client={client}
+    //   wallets={wallets}
+    //   connectButton={{ label: "Sign In" }}
+    //   connectModal={{
+    //     size: "wide",
+    //     title: "Sign In",
+    //   }}
+    //   accountAbstraction={{
+    //     chain: ethereum, // replace with the chain you want
+    //     sponsorGas: true,
+    //   }}
       // auth={{
       //   async doLogin(params) {
       //     // call your backend to verify the signed payload passed in params
@@ -67,6 +67,7 @@ export default function WalletConnect() {
       //     // call your backend to check if the user is logged in
       //   },
       // }}
-    />
+    // />
+    <></>
   );
 }
