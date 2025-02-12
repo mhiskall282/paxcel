@@ -1,9 +1,8 @@
-const {DataTypes,Model} = require("sequelize")
+const {DataTypes} = require("sequelize")
 const dbconfig = require("./../config/dbconfig")
 
-class Product extends Model{}
 
-Product.init({
+const Product = dbconfig.define("Products",{
     name:{
         type:DataTypes.STRING,
         allowNull:false,
@@ -23,13 +22,8 @@ Product.init({
     },
 },
 {
-    dbconfig,
-    modelName:"Product",
-    freezeTableName:false,
     timestamps:true,
 })
 
-(async()=>{
-    await Product.sync({alter:true,});
-})
+
 module.exports = Product;

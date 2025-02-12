@@ -1,11 +1,9 @@
-const { DataTypes, Model } = require("sequelize");
-const sequelize = require("../config/dbconfig");
+const { DataTypes } = require("sequelize");
+const dbconfig = require("../config/dbconfig");
 const User = require("./users")
 const Receiver = require("./receiver")
 
-class Shipment extends Model {}
-
-Shipment.init(
+const Shipment = dbconfig.define("Shipments",
   {
     trackingNumber: {
       type: DataTypes.UUID,
@@ -23,7 +21,7 @@ Shipment.init(
       }
     },
     receiver: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
       comment:"Foreign for Receiver",
       references:{
@@ -41,11 +39,6 @@ Shipment.init(
       allowNull: false,
     },
 
-    from_location: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-
     status: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -57,16 +50,8 @@ Shipment.init(
     },
   },
   {
-    sequelize,
-    freezeTableName:true,
-    modelName:"Shipment",
     timestamps: true,
   }
 );
-
-(async()=>{
-  await Shipment.sync({alter:true,});
-})
-
 
 module.exports = Shipment;

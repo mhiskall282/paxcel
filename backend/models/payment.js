@@ -1,13 +1,10 @@
-const { DataTypes, Model } = require("sequelize");
+const { DataTypes } = require("sequelize");
 const dbconfig = require("./../config/dbconfig");
 const Shipment = require("./shipment");
 const User = require("./users");
 const Product = require("./product");
 
-class Payment extends Model {}
-
-Payment.init(
-  {
+const Payment = dbconfig.define("Payments",{
     transaction_id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
@@ -54,15 +51,9 @@ Payment.init(
     },
   },
   {
-    dbconfig,
-    modelName: "Payment",
-    tableName: "Payment",
     timestamps:true,
   }
 );
 
-(async()=>{
-  await Payment.sync({alter:true,});
-})
 
 module.exports = Payment;

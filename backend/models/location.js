@@ -2,10 +2,8 @@ const {DataTypes, Model} = require("sequelize")
 const dbconfig = require("./../config/dbconfig")
 const Shipment = require("./shipment");
 
-class Location extends Model{}
 
-
-Location.init({
+const Location = dbconfig.define("Locations",{
     long:{
         type:DataTypes.STRING,
         allowNull:false,
@@ -28,12 +26,8 @@ Location.init({
         }
     },
 },{
-    dbconfig,
-    modelName:"Location",
     timestamps:true,
 })
 
-(async()=>{
-    await Location.sync({alter:true,});
-})
+
 module.exports = Location;

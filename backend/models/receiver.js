@@ -1,9 +1,8 @@
-const {DataTypes, Model} = require("sequelize")
+const {DataTypes} = require("sequelize")
 const dbconfig = require("./../config/dbconfig")
 
-class Receiver extends Model{}
 
-Receiver.init({
+const Receiver = dbconfig.define("Receivers",{
     name:{
         type:DataTypes.STRING,
         allowNull:false,
@@ -23,14 +22,8 @@ Receiver.init({
         allowNull:false,
     }
 },{
-    dbconfig,
-    modelName:"Receiver",
     timestamps:true,
-    tableName:"Receiver",
-})
+},)
 
-(async()=>{
-    await Receiver.sync({alter:true,});
-})
 
 module.exports = Receiver;
