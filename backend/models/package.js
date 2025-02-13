@@ -2,7 +2,12 @@ const {DataTypes} = require("sequelize")
 const dbconfig = require("./../config/dbconfig")
 
 
-const Product = dbconfig.define("Products",{
+const Package = dbconfig.define("Packages",{
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
     name:{
         type:DataTypes.STRING,
         allowNull:false,
@@ -19,11 +24,18 @@ const Product = dbconfig.define("Products",{
         type:DataTypes.STRING,
         allowNull:true,
         comment:"Dimension of Item"
-    },
+    },createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
 },
 {
     timestamps:true,
 })
 
 
-module.exports = Product;
+module.exports = Package;

@@ -3,8 +3,12 @@ const dbconfig = require("../config/dbconfig");
 const User = require("./users")
 const Receiver = require("./receiver")
 
-const Shipment = dbconfig.define("Shipments",
-  {
+const Shipment = dbconfig.define("Shipments",{
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
     trackingNumber: {
       type: DataTypes.UUID,
       allowNull: false,
@@ -45,6 +49,13 @@ const Shipment = dbconfig.define("Shipments",
       defaultValue: "created",
     },
     estimatedDelivery: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    updatedAt: {
       type: DataTypes.DATE,
       allowNull: false,
     },

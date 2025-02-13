@@ -2,9 +2,14 @@ const { DataTypes } = require("sequelize");
 const dbconfig = require("./../config/dbconfig");
 const Shipment = require("./shipment");
 const User = require("./users");
-const Product = require("./product");
+const Package = require("./package");
 
 const Payment = dbconfig.define("Payments",{
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     transaction_id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
@@ -27,10 +32,10 @@ const Payment = dbconfig.define("Payments",{
         key: "id",
       },
     },
-    product_id: {
+    package_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: Product,
+        model: Package,
         key: "id",
       },
     },
@@ -48,6 +53,13 @@ const Payment = dbconfig.define("Payments",{
       type: DataTypes.DECIMAL,
       allowNull: false,
       defaultValue: 0.0,
+    },createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
     },
   },
   {

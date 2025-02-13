@@ -1,6 +1,9 @@
 const User = require("./../models/users");
 const Receiver = require("./../models/receiver");
-const Shipment = require("./../models/shipment")
+const Shipment = require("./../models/shipment");
+const { where, Op } = require("sequelize");
+const { validate: isUuid } = require('uuid');
+const Location = require("./../models/location");
 
 const createShipment = async (req, resp) => {
   const {
@@ -12,80 +15,167 @@ const createShipment = async (req, resp) => {
     to_location,
     weight,
     deliveryType,
-    estimateDelivery,
+    estimatedDelivery,
     notes,
   } = req.body;
 
   // Validate sender
-  if (!senderName | !senderAddress) {
+  if (!senderName || !senderAddress) {
     return resp.status(400).json({ error: "Sender fields are required" });
   }
 
-  // validate rec
-  else if (!receiverName | !receiverAddress) {
+  // Validate receiver
+  if (!receiverName || !receiverAddress) {
     return resp.status(400).json({ error: "Receiver fields are required" });
   }
 
-//   validate location
-  else if (!from_location | !to_location){
+  // Validate location
+  if (!from_location || !to_location) {
     return resp.status(400).json({ error: "Location fields are required" });
   }
-  // validate package
-  else if (!weight | !deliveryType) {
+
+  // Validate package
+  if (!weight || !deliveryType) {
     return resp.status(400).json({ error: "Package fields are required" });
   }
 
-  //   make sure sender/user exists
+  // Validate estimated delivery
+  
+
+  // Make sure sender exists
   try {
-    var sender = User.findAll({
+    var sender = await User.findAll({
       where: {
-        name: senderName,
-        address: senderAddress,
+        [Op.and]: [
+          { name: senderName },
+          { address: senderAddress }
+        ]
       },
     });
-    if (sender != null) {
-      console.log(sender);
-    } else {
-      resp.status(401).json("Sender detailers not found");
+
+    if (!sender.length) {
+      return resp.status(401).json("Sender details not found");
     }
+    
   } catch (error) {
-    resp
-      .status(500)
-      .json({ error: "An error occurred while findin the sender" });
+    return resp.status(500).json({ error: "An error occurred while finding the sender" });
   }
 
-  //   make sure sender/user exists
+  // Make sure receiver exists
   try {
-    var receiver = Receiver.findAll({
+    var receiver = await Receiver.findAll({
       where: {
-        name: receiverName,
-        address: receiverAddress,
+        [Op.and]: [
+          { name: receiverName },
+          { address: receiverAddress }
+        ]
       },
     });
-    if (receiver != null) {
-    //   console.log(receiver);
-    } else {
-      resp.status(401).json("Receiver detailers not found");
+
+    if (!receiver.length) {
+      return resp.status(401).json("Receiver details not found");
     }
   } catch (error) {
-    resp
-      .status(500)
-      .json({ error: "An error occurred while finding the Receiver" });
+    return resp.status(500).json({ error: "An error occurred while finding the receiver" });
   }
 
-//   create shipment
-  try{
+  // Create shipment
+  
+  console.log(estimatedDelivery)
+  try {
+    
+    let date = new Date();
+    date.setDate(date.getDate() + 1);
+    
     const shipment = await Shipment.create({
-        sender:sender,
-        receiver:receiver,
-        from_location: location_from,
-        to_location:location_to,
-        estimateDelivery:new Date()
+      sender: sender[0].id, // Assuming sender and receiver are single objects
+      receiver: receiver[0].id, // Assuming sender and receiver are single objects
+      from_location: from_location,
+      to_location: to_location,
+      weight: weight,
+      deliveryType: deliveryType,
+      estimatedDelivery:date,
+      notes: notes, // Include notes if needed
     });
-    resp.status(201).json({success:true,data:shipment})
-  }catch(error){
-    resp.status(401).json({error:`Failed to create shipment ${error}`})
+    return resp.status(201).json({ success: true, data: shipment });
+  } catch (error) {
+    return resp.status(500).json({ error: `Failed to create shipment: ${error.message}` });
   }
 };
 
-module.exports = createShipment;
+
+const getAllShipments = async (req, resp) => {
+  try {
+    const shipments = await Shipment.findAll();
+    return resp.status(200).json(shipments);
+  } catch (error) {
+    return resp.status(500).json({ error: "Failed to fetch shipments " });
+    console.error("Error: ", error);
+  }
+};
+
+const getShipmentById = async (req, resp) => {
+  const id = parseInt(req.params.id);
+
+  try {
+    const shipments = await Shipment.findByPk(id);
+    if(shipments){
+      return resp.status(200).json(shipments);
+    }else{  
+      return resp.status(404).json({error:"shipments not found"});
+    }
+  } catch (error) {
+    return resp.status(500).json({ error: "Failed to fetch shipments" });
+    console.error("Error: ", error);
+  }
+};
+
+
+
+const getShipmentByTransId = async (req, resp) => {
+  const track_no = req.params.track_no;
+ 
+  if (!track_no || !isUuid(track_no)) {
+    return resp.status(400).json({ error: "Valid tracking number detail needed" });
+  }
+  try {
+    console.log(`Searching for tracking number: ${track_no}`);
+    const shipment = await Shipment.findOne({
+      where:{trackingNumber:track_no}
+    });
+    console.log(`Query result: ${JSON.stringify(shipment)}`);
+    if (shipment) {
+      try {
+        var currentlocation = await Location.findOne({
+          where:{shipment_id:shipment.id}
+        })
+        console.log(currentlocation)
+        if(currentlocation == null){
+          currentlocation = [];
+        }
+
+      } catch (error) {
+        return resp.status(404).json({error:"shipment_id not found"})
+      }
+      const data = {
+        id:shipment.id,
+        trackingNumber:shipment.trackingNumber,
+        sender:shipment.sender,
+        receiver:shipment.receiver,
+        estimatedDelivery:shipment.estimatedDelivery,
+        currentlocation:currentlocation,
+      }
+      return resp.status(200).json(data);
+    } else {
+      console.error(`Tracking number not found: ${track_no}`);
+      return resp.status(404).json({ error: "Shipment not found" });
+    }
+  } catch (error) {
+    console.error("Error: ", error);
+    return resp.status(500).json({ error: "Failed to fetch shipment" });
+  }
+};
+
+
+
+module.exports = { createShipment, getAllShipments,getShipmentById,getShipmentByTransId };

@@ -6,6 +6,56 @@ const auth = require('../middleware/auth');
 /**
  * @swagger
  * /api/shipments:
+ *   get:
+ *     summary: Fetch all shipment
+ *     description: Returns a list of shipment
+ *     responses:
+ *       200:
+ *         description: Success
+ */
+router.get('/shipments', shipment.getAllShipments);
+
+/**
+ * @swagger
+ * /api/shipments/{id}:
+ *   get:
+ *     summary: Fetch a shipments by ID
+ *     description: Fetch a shipments by ID
+ *     parameters:
+ *     - in: path
+ *       name: id
+ *       required: true
+ *       description: shipment ID
+ *       schema:
+ *          type: string
+ *     responses:
+ *       201:
+ *         description: Success
+ */
+router.get('/shipments/:id', shipment.getShipmentById);
+
+/**
+ * @swagger
+ * /api/shipments/track/{track_no}:
+ *   get:
+ *     summary: Fetch a shipments by track_no
+ *     description: Fetch a shipments by track_no
+ *     parameters:
+ *     - in: path
+ *       name: track_no
+ *       required: true
+ *       description: shipments trackin number
+ *       schema:
+ *          type: string
+ *     responses:
+ *       201:
+ *         description: Success
+ */
+router.get('/shipments/track/:track_no', shipment.getShipmentByTransId);
+
+/**
+ * @swagger
+ * /api/shipments/create:
  *   post:
  *      summary: Shipments of a user
  *      description: Create Shipments of users
@@ -30,9 +80,13 @@ const auth = require('../middleware/auth');
  *                   type: string
  *                  weight:
  *                   type: string
+ *                  from_location:
+ *                   type: string
+ *                  to_location:
+ *                   type: string
  *                  deliveryType:
  *                   type: string
- *                  notes:
+ *                  estimatedDelivery:
  *                   type: string
  *      responses:
  *       201:
@@ -44,6 +98,7 @@ const auth = require('../middleware/auth');
  *       500:
  *         description: Internal Server Error
  */
-router.post("/shipments", shipment)
+router.post("/shipments/create", shipment.createShipment)
+
 
 module.exports = router; 

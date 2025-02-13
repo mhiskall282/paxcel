@@ -37,7 +37,7 @@ module.exports = {
           key: "id",
         },
       },
-      createAt:{
+      createdAt:{
           type:Sequelize.DATE(NOW)
         },
         updatedAt:{

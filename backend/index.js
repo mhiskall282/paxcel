@@ -5,6 +5,7 @@ const swaggerSetup = require("./config/swagger.js");
 const mainRoutes = require("./routes/main.js");
 const authRoutes = require("./routes/authRoutes");
 const shipmentRoute = require("./routes/shipmentRoutes.js");
+const receiverRoute = require("./routes/receiverRoutes.js");
 
 const sequelize = require("./config/dbconfig.js");
 
@@ -30,9 +31,11 @@ app.use(
   })
 );
 
+app.use("/api", authRoutes);
 app.use("/api", mainRoutes);
 app.use("/api", shipmentRoute);
-app.use("/api", authRoutes);
+app.use("/api",receiverRoute)
+
 
 
 

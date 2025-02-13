@@ -2,6 +2,11 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/dbconfig');
 
 const User = sequelize.define('Users', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
   name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -32,6 +37,13 @@ const User = sequelize.define('Users', {
     type: DataTypes.STRING,
     allowNull: false,
     defaultValue: "user",
+  },createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
   },
 }, {
   timestamps: true,

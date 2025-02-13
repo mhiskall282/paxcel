@@ -6,7 +6,7 @@ const DataTypes = require("sequelize/lib/data-types");
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Products", {
+    await queryInterface.createTable("Packages", {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -31,7 +31,7 @@ module.exports = {
         allowNull: true,
         comment: "Dimension of Item",
       },
-      createAt: {
+      createdAt: {
         type: Sequelize.DATE(NOW),
       },
       updatedAt: {
@@ -41,6 +41,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-     await queryInterface.dropTable('Products');
+     await queryInterface.dropTable('Packages');
   },
 };

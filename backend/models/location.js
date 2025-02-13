@@ -4,6 +4,11 @@ const Shipment = require("./shipment");
 
 
 const Location = dbconfig.define("Locations",{
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
     long:{
         type:DataTypes.STRING,
         allowNull:false,
@@ -23,7 +28,14 @@ const Location = dbconfig.define("Locations",{
         references:{
             model:Shipment,
             key:"id",
-        }
+        },createdAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+          },
+          updatedAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+          },
     },
 },{
     timestamps:true,

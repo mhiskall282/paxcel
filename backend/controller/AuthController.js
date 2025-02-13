@@ -5,10 +5,10 @@ const User = require('../models/users');
 const validEmail  = require('../utils/validators');
 
 const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password,address,phone } = req.body;
 
-  if (!name || !email || !password) {
-    return res.status(400).json({ error: 'Name, email, and password are required' });
+  if (!name || !email || !password |!address |!phone) {
+    return res.status(400).json({ error: 'All fields are required' });
   }
   
   if (!validEmail(email)) {
@@ -17,7 +17,7 @@ const registerUser = async (req, res) => {
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.create({ name, email, password: hashedPassword });
+    const newUser = await User.create({ name, email, password: hashedPassword,address:address,phone:phone });
     res.status(201).json(newUser);
   } catch (error) {
     console.error(error);

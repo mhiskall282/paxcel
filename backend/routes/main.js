@@ -13,7 +13,7 @@ const auth = require('../middleware/auth');
  *       200:
  *         description: Success
  */
-router.get('/users',auth, user.getUsers);
+router.get('/users', user.getUsers);
 
 /**
  * @swagger

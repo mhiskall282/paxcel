@@ -42,11 +42,11 @@ module.exports = {
           key: "id",
         },
       },
-      product_id: {
+      package_id: {
         type: Sequelize.INTEGER,
         references: {
           model:{
-            tableName:"Products",
+            tableName:"Packages",
             schema:"public",
           },
           key: "id",
@@ -66,7 +66,7 @@ module.exports = {
         type: Sequelize.DECIMAL,
         allowNull: false,
         defaultValue: 0.0,
-      },createAt:{
+      },createdAt:{
           type:Sequelize.DATE(NOW)
         },
         updatedAt:{

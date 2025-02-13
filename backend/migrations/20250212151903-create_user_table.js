@@ -24,6 +24,14 @@ module.exports = {
           allowNull: false,
           unique: true,
         },
+        address: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+        phone: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
         password: {
           type: Sequelize.STRING,
           allowNull: false,
@@ -33,7 +41,7 @@ module.exports = {
           allowNull: false,
           defaultValue: "user",
         },
-        createAt:{
+        createdAt:{
           type:Sequelize.DATE(NOW)
         },
         updatedAt:{
