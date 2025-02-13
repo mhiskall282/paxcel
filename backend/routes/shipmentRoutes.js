@@ -36,7 +36,7 @@ router.get('/shipments/:id', shipment.getShipmentById);
 
 /**
  * @swagger
- * /api/shipments/track/{track_no}:
+ * /api/tracking/{track_no}:
  *   get:
  *     summary: Fetch a shipments by track_no
  *     description: Fetch a shipments by track_no
@@ -51,7 +51,7 @@ router.get('/shipments/:id', shipment.getShipmentById);
  *       201:
  *         description: Success
  */
-router.get('/shipments/track/:track_no', shipment.getShipmentByTransId);
+router.get('/tracking/:track_no', shipment.getShipmentByTransId);
 
 /**
  * @swagger

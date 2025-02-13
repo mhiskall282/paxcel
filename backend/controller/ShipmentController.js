@@ -118,15 +118,34 @@ const getShipmentById = async (req, resp) => {
   const id = parseInt(req.params.id);
 
   try {
-    const shipments = await Shipment.findByPk(id);
-    if(shipments){
-      return resp.status(200).json(shipments);
+    const shipment = await Shipment.findByPk(id);
+    if (shipment) {
+      try {
+        var currentlocation = await Location.findOne({
+          where:{shipment_id:shipment.id}
+        })
+        console.log(currentlocation)
+        if(currentlocation == null){
+          currentlocation = [];
+        }
+
+      } catch (error) {
+        return resp.status(404).json({error:"shipment_id not found"})
+      }
+      const data = {
+        id:shipment.id,
+        trackingNumber:shipment.trackingNumber,
+        status:shipment.status,
+        currentlocation:currentlocation,
+      }
+      return resp.status(200).json(data);
+    
     }else{  
       return resp.status(404).json({error:"shipments not found"});
     }
   } catch (error) {
-    return resp.status(500).json({ error: "Failed to fetch shipments" });
     console.error("Error: ", error);
+    return resp.status(500).json({ error: "Failed to fetch shipments" });
   }
 };
 
@@ -160,10 +179,9 @@ const getShipmentByTransId = async (req, resp) => {
       const data = {
         id:shipment.id,
         trackingNumber:shipment.trackingNumber,
-        sender:shipment.sender,
-        receiver:shipment.receiver,
+        status:shipment.status,
         estimatedDelivery:shipment.estimatedDelivery,
-        currentlocation:currentlocation,
+        events:currentlocation,
       }
       return resp.status(200).json(data);
     } else {
