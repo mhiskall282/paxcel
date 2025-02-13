@@ -13,7 +13,7 @@ const auth = require('../middleware/auth');
  *       200:
  *         description: Success
  */
-router.get('/shipments', shipment.getAllShipments);
+router.get('/shipments',auth, shipment.getAllShipments);
 
 /**
  * @swagger
@@ -32,7 +32,7 @@ router.get('/shipments', shipment.getAllShipments);
  *       201:
  *         description: Success
  */
-router.get('/shipments/:id', shipment.getShipmentById);
+router.get('/shipments/:id', auth, shipment.getShipmentById);
 
 /**
  * @swagger
@@ -51,7 +51,7 @@ router.get('/shipments/:id', shipment.getShipmentById);
  *       201:
  *         description: Success
  */
-router.get('/tracking/:track_no', shipment.getShipmentByTransId);
+router.get('/tracking/:track_no', auth, shipment.getShipmentByTransId);
 
 /**
  * @swagger
@@ -98,7 +98,7 @@ router.get('/tracking/:track_no', shipment.getShipmentByTransId);
  *       500:
  *         description: Internal Server Error
  */
-router.post("/shipments/create", shipment.createShipment)
+router.post("/shipments/create", auth, shipment.createShipment)
 
 
 module.exports = router; 

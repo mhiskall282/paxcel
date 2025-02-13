@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const receiverController = require("./../controller/receiverController");
+const auth = require("./../middleware/auth")
 
 
 /**
@@ -32,7 +33,7 @@ const receiverController = require("./../controller/receiverController");
  *       500:
  *         description: Internal Server Error
  */
-router.post("/receiver/create",receiverController.createReceiver);
+router.post("/receiver/create",auth,receiverController.createReceiver);
 
 /**
  * @swagger
@@ -50,7 +51,7 @@ router.post("/receiver/create",receiverController.createReceiver);
  *       500:
  *         description: Internal Server Error
  */
-router.get("/receiver",receiverController.getAllReceiver);
+router.get("/receiver",auth,receiverController.getAllReceiver);
 
 /**
  * @swagger
@@ -74,6 +75,6 @@ router.get("/receiver",receiverController.getAllReceiver);
  *       500:
  *         description: Internal Server Error
  */
-router.get("/receiver/:id",receiverController.getReceiverById);
+router.get("/receiver/:id",auth,receiverController.getReceiverById);
 
 module.exports = router;

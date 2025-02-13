@@ -13,7 +13,7 @@ const auth = require('../middleware/auth');
  *       200:
  *         description: Success
  */
-router.get('/users', user.getUsers);
+router.get('/users', auth, user.getUsers);
 
 /**
  * @swagger
@@ -32,7 +32,7 @@ router.get('/users', user.getUsers);
  *       201:
  *         description: Success
  */
-router.get('/users/:id', user.getUserById);
+router.get('/users/:id',auth, user.getUserById);
 
 
 /**
@@ -62,7 +62,7 @@ router.get('/users/:id', user.getUserById);
  *       500:
  *         description: Internal Server Error
  */
-router.post('/users/create', user.createUser);
+router.post('/users/create',auth, user.createUser);
 
 
 
@@ -83,7 +83,7 @@ router.post('/users/create', user.createUser);
  *       200:
  *         description: Success
  */
-router.put('/users/:id', user.updateUser);
+router.put('/users/:id',auth, user.updateUser);
 
 /**
  * @swagger
@@ -102,6 +102,6 @@ router.put('/users/:id', user.updateUser);
  *       200:
  *         description: Success
  */
-router.delete('/users/:id', user.deleteUser);
+router.delete('/users/:id',auth, user.deleteUser);
 
 module.exports = router;

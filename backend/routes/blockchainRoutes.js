@@ -22,7 +22,7 @@ const blockchainController = require("./../controller/blockchainController")
  *       201:
  *         description: Success
  */
-router.post('/verify/blockchain', blockchainController.verifyBlockchain);
+router.post('/verify/blockchain',auth, blockchainController.verifyBlockchain);
 
 /**
  * @swagger
@@ -46,6 +46,6 @@ router.post('/verify/blockchain', blockchainController.verifyBlockchain);
  *       201:
  *         description: Success
  */
-router.post('/blockchain/create', blockchainController.createBlockchain);
+router.post('/blockchain/create',auth, blockchainController.createBlockchain);
 
 module.exports = router;
