@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 
-const ProtectedRoute: React.FC<{ children }> = ({children}) => {
+const ProtectedRoute: React.FC<{ children: any }> = ({children}) => {
   // const { isAuthenticated } = useAuth();
   const token = localStorage.getItem('token');
   
