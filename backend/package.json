@@ -4,7 +4,7 @@
   "description": "backend for paxcel application",
   "main": "index.js",
   "scripts": {
-    "db:makemigrations":"node ./node_modules/sequelize-auto-migrations/bin/makemigration --name initial_migration_name",
+    "db:makemigrations": "node ./node_modules/sequelize-auto-migrations/bin/makemigration --name initial_migration_name",
     "start": "npx nodemon index.js",
     "test": "npm start"
   },
@@ -21,6 +21,7 @@
     "sequelize": "^6.37.5",
     "sequelize-auto-migrations": "^1.0.3",
     "sequelize-cli": "^6.6.2",
+    "sqlite3": "^5.1.7",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "uuid": "^11.0.5"

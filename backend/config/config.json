@@ -7,17 +7,8 @@
     "dialect": "postgres" 
   },
   "test": {
-    "username": "neondb_owner",
-    "password": "npg_8t6LKOSDHomj",
-    "database": "neondb",
-    "host": "ep-summer-paper-a468u2lw-pooler.us-east-1.aws.neon.tech",
-    "dialect": "postgres",
-    "dialectOptions": {
-      "ssl": {
-        "require": true,
-        "rejectUnauthorized": false
-      }
-    }
+    "dialect":"sqlite",
+    "storage":"./db.sqlite3"
   },
   "production": {
     "username": "neondb_owner",
