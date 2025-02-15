@@ -19,6 +19,10 @@ const router = express.Router()
  *                 type: string
  *               email:
  *                 type: string
+ *               address:
+ *                 type: string
+ *               phone:
+ *                 type: string
  *               password:
  *                 type: string
  *     responses:
