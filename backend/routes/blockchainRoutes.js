@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const blockchainController = require("./../controller/blockchainController")
+const auth = require("./../middleware/auth")
 
 /**
  * @swagger
