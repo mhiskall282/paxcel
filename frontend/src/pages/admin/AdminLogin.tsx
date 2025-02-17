@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock, User } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
+import axios from "axios";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [credentials, setCredentials] = useState({ username: 'admin', password: 'admin' });
+  const [credentials, setCredentials] = useState({ email: 'admin', password: 'admin' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -15,18 +16,48 @@ export default function AdminLogin() {
     setLoading(true);
     setError('');
     
-    try {
-      const success = login(credentials.username, credentials.password);
-      if (success) {
-        navigate('/admin', { replace: true });
-      } else {
-        setError('Invalid credentials');
+    // try {
+    //   const success = login(credentials.username, credentials.password);
+    //   if (success) {
+    //     navigate('/admin', { replace: true });
+    //   } else {
+    //     setError('Invalid credentials');
+    //   }
+    // } catch {
+    //   setError('An error occurred during login');
+    // } finally {
+    //   setLoading(false);
+    // }
+
+    axios.post("http://localhost:3000/api/auth/login",credentials)
+    .then(
+      response=>{
+        console.log(response?.data)
+        const token = response.data.token;
+        const user = response.data.user
+        // save token 
+        localStorage.setItem("token",token);
+        
+        // save user
+        localStorage.setItem("user",user);
+
+        // check permission/role ; must be admin
+        if(user.role == "admin"){
+          navigate('/admin', { replace: true });
+        }
+
+        setError("Permission denied");
+        setLoading(false);
+
       }
-    } catch {
-      setError('An error occurred during login');
-    } finally {
-      setLoading(false);
-    }
+    ).catch(
+      error=>{
+        console.log(error)
+        console.log(error?.response?.data?.error);
+        setError(error.response.data.error);
+        setLoading(false);
+      }
+    )
   };
 
   return (
@@ -45,13 +76,13 @@ export default function AdminLogin() {
             )}
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Username</label>
+              <label className="block text-sm font-medium text-gray-700">Email</label>
               <div className="mt-1 relative">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <input
                   type="text"
-                  value={credentials.username}
-                  onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
+                  value={credentials.email}
+                  onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
                   className="pl-10 w-full px-4 py-2 border rounded-md"
                   required
                 />

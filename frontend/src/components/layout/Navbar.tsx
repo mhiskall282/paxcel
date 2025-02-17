@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Truck, Menu, X } from 'lucide-react';
-import { ConnectButton } from '@particle-network/connectkit';
+// import { ConnectButton } from '@particle-network/connectkit';
 //import WalletConnect from "../auth/WalletConnect";
 
 
@@ -44,7 +44,7 @@ export default function Navbar() {
                   ))}
                   {/* WalletConnect Button */}
                   {/* <WalletConnect /> */}
-                  <ConnectButton />
+                  {/* <ConnectButton /> */}
                </div>
 
                {/* Mobile Menu Button */}

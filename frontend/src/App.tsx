@@ -26,7 +26,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 //import WalletConnect from "./components/auth/WalletConnect";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ParticleConnectkit } from "./components/auth/connectkit";
+// import { ParticleConnectkit } from "./components/auth/connectkit";
 const queryClient = new QueryClient();
 
 
@@ -34,7 +34,7 @@ const queryClient = new QueryClient();
 export default function App() {
    return (
       <QueryClientProvider client={queryClient}>
-         <ParticleConnectkit>
+         {/* <ParticleConnectkit> */}
 
 
             <Router>
@@ -78,7 +78,7 @@ export default function App() {
                   <Footer />
                </div>
             </Router>
-         </ParticleConnectkit>
+         {/* </ParticleConnectkit> */}
 
       </QueryClientProvider>
    );

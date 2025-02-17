@@ -7,14 +7,27 @@ import DeliveryPredictions from '../components/analytics/DeliveryPredictions';
 import RouteOptimization from '../components/analytics/RouteOptimization';
 import ShipmentAnalytics from '../components/analytics/ShipmentAnalytics';
 import { mockTrackingData } from '../utils/mockData';
+// import { trackParcel } from '../hooks/apiHookks';
+import axios from "axios";
 
 export default function TrackParcel() {
   const [trackingNumber, setTrackingNumber] = useState('');
   const [trackingResult, setTrackingResult] = useState(null);
 
-  const handleTracking = (e: React.FormEvent) => {
+  const handleTracking = async(e: React.FormEvent) => {
     e.preventDefault();
-    setTrackingResult(mockTrackingData);
+    // setTrackingResult(mockTrackingData);
+    axios.get(`http://localhost:3000/api/tracking/${trackingNumber}`)
+      .then(
+        response=>{
+          console.log(response.data)
+        }
+      ).catch(
+        error=>{
+          console.log(error)
+          console.error(error?.response?.data?.error)
+        }
+      )
   };
 
   return (

@@ -73,7 +73,9 @@ const createShipment = async (req, resp) => {
     });
 
     if (!receiver.length) {
-      return resp.status(401).json("Receiver details not found");
+      receiver = await Receiver.create({
+        name:receiverName,address:receiverAddress,phone:"0209117002"
+      });
     }
   } catch (error) {
     return resp.status(500).json({ error: "An error occurred while finding the receiver" });

@@ -39,7 +39,7 @@ module.exports = {
         references: {
           model: {
             tableName: "Receivers",
-            schema: "public",
+            // schema: "public",
           },
           key: "id",
         },
