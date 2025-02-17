@@ -26,23 +26,15 @@ module.exports = {
         references: {
           model: {
             tableName: "Users",
-            schema: "public",
+            // schema: "public",
           },
           key: "id",
         },
       },
 
-      receiver: {
-        type: Sequelize.INTEGER,
+      receiverName: {
+        type: Sequelize.STRING,
         allowNull: false,
-        comment: "Foreign for Receiver",
-        references: {
-          model: {
-            tableName: "Receivers",
-            // schema: "public",
-          },
-          key: "id",
-        },
       },
       from_location: {
         type: Sequelize.STRING,

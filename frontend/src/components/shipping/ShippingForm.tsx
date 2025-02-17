@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Package, User, MapPin } from 'lucide-react';
+import React, { useState } from "react";
+import { Package, User, MapPin } from "lucide-react";
+import axios from "axios";
 
 interface ShippingFormProps {
   onSubmit: (details: any) => void;
@@ -7,24 +8,47 @@ interface ShippingFormProps {
 
 export default function ShippingForm({ onSubmit }: ShippingFormProps) {
   const [formData, setFormData] = useState({
-    senderName: '',
-    senderAddress: '',
-    receiverName: '',
-    receiverAddress: '',
-    weight: '',
-    deliveryType: 'air',
-    notes: ''
+    senderName: "",
+    senderAddress: "",
+    receiverName: "",
+    receiverAddress: "",
+    weight: "",
+    deliveryType: "air",
+    notes: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+    // onSubmit(formData);
+
+    try {
+      const token = localStorage.getItem("token");
+      const resp = await axios.post(
+        "http://localhost:3000/api/shipment/create",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if(resp.status == 201){
+        console.log(resp.data)
+      }
+    } catch (error) {
+      console.log("error ", error);
+    }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 

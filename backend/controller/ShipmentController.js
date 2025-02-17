@@ -11,6 +11,7 @@ const createShipment = async (req, resp) => {
     senderAddress,
     receiverName,
     receiverAddress,
+    receiverPhone,
     from_location,
     to_location,
     weight,
@@ -25,7 +26,7 @@ const createShipment = async (req, resp) => {
   }
 
   // Validate receiver
-  if (!receiverName || !receiverAddress) {
+  if (!receiverName || !receiverAddress || !receiverPhone) {
     return resp.status(400).json({ error: "Receiver fields are required" });
   }
 
@@ -67,23 +68,25 @@ const createShipment = async (req, resp) => {
       where: {
         [Op.and]: [
           { name: receiverName },
-          { address: receiverAddress }
+          { address: receiverAddress },
+          { phone: receiverAddress}
         ]
       },
     });
 
     if (!receiver.length) {
       receiver = await Receiver.create({
-        name:receiverName,address:receiverAddress,phone:"0209117002"
+        name:receiverName,address:receiverAddress,phone: receiverAddress
       });
+      
+    }else{
+      var rec_id = receiver[0].id;
     }
   } catch (error) {
-    return resp.status(500).json({ error: "An error occurred while finding the receiver" });
+    return resp.status(500).json({ error: `An error occurred while queryring the receiver ${error}` });
   }
 
   // Create shipment
-  
-  console.log(estimatedDelivery)
   try {
     
     let date = new Date();
@@ -91,12 +94,12 @@ const createShipment = async (req, resp) => {
     
     const shipment = await Shipment.create({
       sender: sender[0].id, // Assuming sender and receiver are single objects
-      receiver: receiver[0].id, // Assuming sender and receiver are single objects
-      from_location: from_location,
-      to_location: to_location,
+      receiver: rec_id, // Assuming sender and receiver are single objects
+      from_location: senderAddress,
+      to_location: receiverAddress,
       weight: weight,
       deliveryType: deliveryType,
-      estimatedDelivery:date,
+      estimatedDelivery:date, // 2 days from today 
       notes: notes, // Include notes if needed
     });
     return resp.status(201).json({ success: true, data: shipment });

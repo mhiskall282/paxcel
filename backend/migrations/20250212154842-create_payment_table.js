@@ -25,7 +25,7 @@ module.exports = {
         references: {
           model: {
             tableName:"Shipments",
-            schema: 'public',
+            // schema: 'public',
           },
           key: "id",
         },
@@ -37,7 +37,7 @@ module.exports = {
         references: {
           model: {
             tableName:"Users",
-            schema:"public",
+            // schema:"public",
           },
           key: "id",
         },
@@ -47,7 +47,7 @@ module.exports = {
         references: {
           model:{
             tableName:"Packages",
-            schema:"public",
+            // schema:"public",
           },
           key: "id",
         },

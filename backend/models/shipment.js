@@ -24,14 +24,9 @@ const Shipment = dbconfig.define("Shipments",{
         key:"id"
       }
     },
-    receiver: {
-      type: DataTypes.INTEGER,
+    receiverName: {
+      type: DataTypes.STRING,
       allowNull: false,
-      comment:"Foreign for Receiver",
-      references:{
-        model:Receiver,
-        key:"id"
-      }
     },
     from_location: {
       type: DataTypes.STRING,

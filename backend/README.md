@@ -42,6 +42,7 @@
     - SHPMENT_ID FK -> SHIPMENT
     - OWNER FK -> USER
     - PRODUCT_ID FK -> PRODUCT
+    - METHOD ( ETH, CREDIT, BANK)
     - AMOUNT
     - BALANCE
     - CREDIT

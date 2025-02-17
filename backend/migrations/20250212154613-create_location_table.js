@@ -32,7 +32,7 @@ module.exports = {
         references: {
           model: {
             tableName:"Shipments",
-            schema:"public",
+            // schema:"public",
           },
           key: "id",
         },
