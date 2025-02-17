@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock, User } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
@@ -10,6 +10,15 @@ export default function AdminLogin() {
   const [credentials, setCredentials] = useState({ email: 'admin', password: 'admin' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  /// Redirect user to dashboard if logged in
+  useEffect(() => {
+    const tokenExist = localStorage.getItem('token');
+    if (tokenExist) {
+      navigate('/admin', { replace: true });
+    }
+  }, [navigate]);
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -66,11 +66,11 @@ export default function AdminDashboard() {
           <div className="mb-8">
             <h2 className="text-xl font-semibold mb-4">Active Shipments Map</h2>
             <div className="bg-white p-4 rounded-lg shadow">
-              <ShipmentMap
+              {/* <ShipmentMap
                 currentLocation={shipmentLocations.currentLocation}
                 destination={shipmentLocations.destination}
                 waypoints={shipmentLocations.waypoints}
-              />
+              /> */}
             </div>
           </div>
 

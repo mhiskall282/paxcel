@@ -91,5 +91,3 @@
     }
     ```
  - learn more [Sequelize Tutorial](https://sequelize.org/docs/v6)
-
- - must change database to sqlite3 for development
