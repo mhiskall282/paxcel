@@ -4,6 +4,8 @@ import PaymentMethods from './PaymentMethods';
 import CryptoPayment from './CryptoPayment';
 import CardPayment from './CardPayment';
 import BankTransfer from './BankTransfer';
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 interface PaymentSectionProps {
   amount: number;
@@ -13,6 +15,7 @@ interface PaymentSectionProps {
 export default function PaymentSection({ amount, shippingDetails }: PaymentSectionProps) {
   const [paymentMethod, setPaymentMethod] = useState('crypto');
   const [processing, setProcessing] = useState(false);
+    const navigate = useNavigate();
 
   const renderPaymentForm = () => {
     switch (paymentMethod) {
@@ -27,11 +30,35 @@ export default function PaymentSection({ amount, shippingDetails }: PaymentSecti
     }
   };
 
-  const handlePaymentSuccess = async () => {
+  const handlePaymentSuccess = async (details:any) => {
     setProcessing(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    setProcessing(false);
-    alert('Payment processed successfully! Your tracking number is: PX' + Math.random().toString(36).substr(2, 9).toUpperCase());
+    const token = localStorage.getItem("token");
+    const data = {
+      amount:amount,
+      method:paymentMethod,
+      details:details,
+      shipmentDetails:shippingDetails,
+    };
+
+    try{
+      const response = await axios.post("http://localhost:3000/api/payment/create",data,{
+        headers:{
+          "Authorization":`Bearer ${token}`,
+          "Content-Type": "Application/json"
+        }
+      });
+      if(response.status == 201){
+        console.log(response.data);
+        setProcessing(false);
+        alert(`Payment processed successfully! Your tracking number is: ${response.data.transaction_id}`);
+        navigate('/', { replace: true });
+      }
+    }catch(error:any){
+      console.error(error);
+      alert("Error: "+ error.response.data.error);
+    }
+    // await new Promise(resolve => setTimeout(resolve, 2000));
+    
   };
 
   return (

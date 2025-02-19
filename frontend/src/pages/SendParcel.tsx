@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Package, Truck, CreditCard } from 'lucide-react';
+// import { Package, Truck, CreditCard } from 'lucide-react';
 import ShippingForm from '../components/shipping/ShippingForm';
 import CostCalculator from '../components/shipping/CostCalculator';
 import PaymentSection from '../components/shipping/PaymentSection';
@@ -9,8 +9,9 @@ export default function SendParcel() {
   const [shippingDetails, setShippingDetails] = useState(null);
   const [calculatedCost, setCalculatedCost] = useState(0);
 
-  const handleShippingSubmit = (details) => {
-    const cost = calculateShippingCost(details.weight, details.deliveryType);
+  const handleShippingSubmit = (details:any) => {
+    const weight = parseInt(details.package.weight); 
+    const cost = calculateShippingCost(weight, details.data.deliveryType);
     setShippingDetails(details);
     setCalculatedCost(cost);
   };

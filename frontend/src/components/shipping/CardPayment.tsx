@@ -3,7 +3,7 @@ import { CreditCard } from 'lucide-react';
 
 interface CardPaymentProps {
   amount: number;
-  onSuccess: () => void;
+  onSuccess: (details:any) => void;
 }
 
 export default function CardPayment({ amount, onSuccess }: CardPaymentProps) {
@@ -17,7 +17,7 @@ export default function CardPayment({ amount, onSuccess }: CardPaymentProps) {
     e.preventDefault();
     // Simulate payment processing
     await new Promise(resolve => setTimeout(resolve, 1500));
-    onSuccess();
+    onSuccess(cardDetails);
   };
 
   return (

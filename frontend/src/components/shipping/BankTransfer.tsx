@@ -2,14 +2,17 @@ import { Building2 } from 'lucide-react';
 
 interface BankTransferProps {
   amount: number;
-  onSuccess: () => void;
+  onSuccess: (details:any) => void;
 }
 
 export default function BankTransfer({ amount, onSuccess }: BankTransferProps) {
   const handleConfirm = async () => {
     // Simulate bank transfer confirmation
+    const data = {
+      "paid":true
+    }
     await new Promise(resolve => setTimeout(resolve, 1500));
-    onSuccess();
+    onSuccess(data);
   };
 
   return (

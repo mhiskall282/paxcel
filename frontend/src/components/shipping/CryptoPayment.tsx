@@ -3,12 +3,12 @@ import { Wallet } from 'lucide-react';
 
 interface CryptoPaymentProps {
   amount: number;
-  onSuccess: () => void;
+  onSuccess: (details:any) => void;
 }
 
 export default function CryptoPayment({ amount, onSuccess }: CryptoPaymentProps) {
   const [selectedCrypto, setSelectedCrypto] = useState('ETH');
-  const cryptoRates = {
+  const cryptoRates:any = {
     ETH: 0.00045,
     BTC: 0.000023,
     USDC: 1
@@ -16,8 +16,12 @@ export default function CryptoPayment({ amount, onSuccess }: CryptoPaymentProps)
 
   const handlePayment = async () => {
     // Simulate Web3 transaction
+    const data = {
+      "symbol":selectedCrypto,
+      "amount":amount * cryptoRates[selectedCrypto],
+    }
     await new Promise(resolve => setTimeout(resolve, 1500));
-    onSuccess();
+    onSuccess(data);
   };
 
   return (

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { LoginApi, RegisterApi } from "./apiHooks";
+import axios from "axios";
 
 interface AuthState {
   isAuthenticated: boolean;
@@ -13,18 +13,17 @@ export const useAuth = create<AuthState>((set) => ({
   user: null,
   login: async (email: string, password: string) => {
     try {
-      const request = await LoginApi({email,password});
-      const response = request.data
+      const response = await axios.post("http://localhost:3000/api/auth/login", {email,password});
 
-      if (request.status == 200) {
-        const token = response.token;
-        const user = response.user;
+      if (response.status == 200) {
+        const {accessToken,refreshToken,user} = response.data;
 
         // Store token and user in localStorage
-        localStorage.setItem('token', token);
+        localStorage.setItem('accesstoken', accessToken);
+        localStorage.setItem('accesstoken', refreshToken);
         localStorage.setItem('user', JSON.stringify(user));
 
-        set({ isAuthenticated: true, user: response.user });
+        set({ isAuthenticated: true, user: response.data.user });
         return true;
       }
     } catch (error) {
@@ -34,13 +33,8 @@ export const useAuth = create<AuthState>((set) => ({
     return false;
   },
   logout: async () => {
-    try {
-
-      if (response.ok) {
-        set({ isAuthenticated: false, user: null });
-      }
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('user');
   },
 }));

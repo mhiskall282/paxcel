@@ -16,10 +16,12 @@ export default function ShippingForm({ onSubmit }: ShippingFormProps) {
     deliveryType: "air",
     notes: "",
   });
+  const user:any = localStorage.getItem("user");
+  const [error,setError] = useState(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // onSubmit(formData);
+    
 
     try {
       const token = localStorage.getItem("token");
@@ -28,16 +30,19 @@ export default function ShippingForm({ onSubmit }: ShippingFormProps) {
         formData,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         }
       );
       if(resp.status == 201){
         console.log(resp.data)
+        onSubmit(resp.data);
+        setError(null)
       }
-    } catch (error) {
+    } catch (error:any) {
       console.log("error ", error);
+      setError(error.response.data)
     }
   };
 
@@ -56,7 +61,11 @@ export default function ShippingForm({ onSubmit }: ShippingFormProps) {
     <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
       <div className="space-y-6">
         <div>
+          { error && (<h3 className="text-lg font-semibold text-red-600 justify-content-center  mb-4 flex items-center">
+            {error}
+          </h3>)}
           <h3 className="text-lg font-semibold mb-4 flex items-center">
+          
             <User className="h-5 w-5 mr-2 text-orange-600" />
             Sender Details
           </h3>
@@ -65,7 +74,7 @@ export default function ShippingForm({ onSubmit }: ShippingFormProps) {
               type="text"
               name="senderName"
               placeholder="Sender's Name"
-              value={formData.senderName}
+              value={user != null ? user.name :formData.senderName}
               onChange={handleChange}
               className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-500"
               required
@@ -74,7 +83,7 @@ export default function ShippingForm({ onSubmit }: ShippingFormProps) {
               type="text"
               name="senderAddress"
               placeholder="Sender's Address"
-              value={formData.senderAddress}
+              value={user != null ? user.address :formData.senderAddress}
               onChange={handleChange}
               className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-500"
               required

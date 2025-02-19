@@ -32,6 +32,9 @@ const registerUser = async (req, res) => {
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
+    const accessToken = generateAccessToken({ name:name, email: email });
+    const refreshToken = generateRefreshToken({name:name,email: email });
+
     const newUser = await User.create({
       name,
       email,
@@ -39,7 +42,17 @@ const registerUser = async (req, res) => {
       address: address,
       phone: phone,
     });
-    res.status(201).json(newUser);
+    res.status(201).json({
+      accessToken,
+      refreshToken,
+      user: {
+        id: newUser["id"],
+        email: newUser["email"],
+        role: newUser["role"],
+        address: newUser["address"],
+      },
+    });
+    
   } catch (error) {
     console.error(error);
     if (error.name === "SequelizeUniqueConstraintError") {
