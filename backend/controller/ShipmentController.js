@@ -4,6 +4,7 @@ const Shipment = require("./../models/shipment");
 const { where, Op } = require("sequelize");
 const { validate: isUuid } = require('uuid');
 const Location = require("./../models/location");
+const Package = require("../models/package");
 
 const createShipment = async (req, resp) => {
   const {
@@ -11,9 +12,6 @@ const createShipment = async (req, resp) => {
     senderAddress,
     receiverName,
     receiverAddress,
-    receiverPhone,
-    from_location,
-    to_location,
     weight,
     deliveryType,
     estimatedDelivery,
@@ -22,26 +20,18 @@ const createShipment = async (req, resp) => {
 
   // Validate sender
   if (!senderName || !senderAddress) {
-    return resp.status(400).json({ error: "Sender fields are required" });
+    return resp.status(400).json({ sender: "Sender fields are required" });
   }
 
   // Validate receiver
-  if (!receiverName || !receiverAddress || !receiverPhone) {
-    return resp.status(400).json({ error: "Receiver fields are required" });
-  }
-
-  // Validate location
-  if (!from_location || !to_location) {
-    return resp.status(400).json({ error: "Location fields are required" });
+  if (!receiverName || !receiverAddress ) {
+    return resp.status(400).json({ receiver: "Receiver fields are required" });
   }
 
   // Validate package
   if (!weight || !deliveryType) {
-    return resp.status(400).json({ error: "Package fields are required" });
+    return resp.status(400).json({ package: "Package fields are required" });
   }
-
-  // Validate estimated delivery
-  
 
   // Make sure sender exists
   try {
@@ -62,52 +52,41 @@ const createShipment = async (req, resp) => {
     return resp.status(500).json({ error: "An error occurred while finding the sender" });
   }
 
-  // Make sure receiver exists
-  try {
-    var receiver = await Receiver.findAll({
-      where: {
-        [Op.and]: [
-          { name: receiverName },
-          { address: receiverAddress },
-          { phone: receiverAddress}
-        ]
-      },
-    });
-
-    if (!receiver.length) {
-      receiver = await Receiver.create({
-        name:receiverName,address:receiverAddress,phone: receiverAddress
-      });
-      
-    }else{
-      var rec_id = receiver[0].id;
-    }
-  } catch (error) {
-    return resp.status(500).json({ error: `An error occurred while queryring the receiver ${error}` });
-  }
-
   // Create shipment
   try {
     
     let date = new Date();
     date.setDate(date.getDate() + 1);
-    
+
+    // create a Shipment
     const shipment = await Shipment.create({
-      sender: sender[0].id, // Assuming sender and receiver are single objects
-      receiver: rec_id, // Assuming sender and receiver are single objects
+      sender: sender[0].id,
+      receiverName: receiverName, 
       from_location: senderAddress,
       to_location: receiverAddress,
-      weight: weight,
-      deliveryType: deliveryType,
+      deliveryType:deliveryType,
       estimatedDelivery:date, // 2 days from today 
-      notes: notes, // Include notes if needed
     });
-    return resp.status(201).json({ success: true, data: shipment });
+
+    
+    // create a package
+    const package = await Package.create({
+      name:"",
+      weight: weight
+    });
+
+    return resp.status(201).json({ success: true, data: shipment,package });
   } catch (error) {
     return resp.status(500).json({ error: `Failed to create shipment: ${error.message}` });
   }
 };
 
+try{
+  
+
+}catch(error){
+  return resp.status(500).json({error:`Failed to create package: ${error.message}`});
+}
 
 const getAllShipments = async (req, resp) => {
   try {
