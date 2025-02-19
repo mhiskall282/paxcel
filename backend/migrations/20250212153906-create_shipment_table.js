@@ -1,6 +1,7 @@
 "use strict";
 
 const { NOW } = require("sequelize");
+const DataTypes = require("sequelize/lib/data-types");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -9,9 +10,9 @@ module.exports = {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        unique:true,
+        unique: true,
         autoIncrement: true,
-        primaryKey:true,
+        primaryKey: true,
       },
       trackingNumber: {
         type: Sequelize.UUID,
@@ -44,6 +45,11 @@ module.exports = {
       to_location: {
         type: Sequelize.STRING,
         allowNull: false,
+      },
+      deliveryType: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "air",
       },
 
       status: {

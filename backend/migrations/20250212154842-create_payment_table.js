@@ -1,17 +1,17 @@
 "use strict";
 
-const { NOW } = require('sequelize');
+const { NOW } = require("sequelize");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {// Create schema if not exists
-    await queryInterface.createTable("Payments",
-      {
+  async up(queryInterface, Sequelize) {
+    // Create schema if not exists
+    await queryInterface.createTable("Payments", {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        unique:true,
-        autoIncrement:true,
+        primaryKey:true,
+        autoIncrement: true,
       },
       transaction_id: {
         type: Sequelize.UUID,
@@ -21,22 +21,22 @@ module.exports = {
       },
       shipment_id: {
         type: Sequelize.INTEGER,
-        allowNull:false,
+        allowNull: false,
         references: {
           model: {
-            tableName:"Shipments",
+            tableName: "Shipments",
             // schema: 'public',
           },
           key: "id",
         },
-        unique:true,
+        unique: true,
       },
       owner_id: {
         type: Sequelize.INTEGER,
         comment: "Foreign of user",
         references: {
           model: {
-            tableName:"Users",
+            tableName: "Users",
             // schema:"public",
           },
           key: "id",
@@ -45,12 +45,38 @@ module.exports = {
       package_id: {
         type: Sequelize.INTEGER,
         references: {
-          model:{
-            tableName:"Packages",
+          model: {
+            tableName: "Packages",
             // schema:"public",
           },
           key: "id",
         },
+      },
+      paymentMethod: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      cryptoType: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: "ETH",
+      },
+      cardNumber: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      cvc: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      expiryDate: {
+        type: Sequelize.DATE,
+        allowNull: true,
+      },
+      status: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: "pending",
       },
       amount: {
         type: Sequelize.DECIMAL,
@@ -66,16 +92,17 @@ module.exports = {
         type: Sequelize.DECIMAL,
         allowNull: false,
         defaultValue: 0.0,
-      },createdAt:{
-          type:Sequelize.DATE(NOW)
-        },
-        updatedAt:{
-          type:Sequelize.DATE(NOW)
-        }
+      },
+      createdAt: {
+        type: Sequelize.DATE(NOW),
+      },
+      updatedAt: {
+        type: Sequelize.DATE(NOW),
+      },
     });
   },
 
   async down(queryInterface, Sequelize) {
-    return queryInterface.dropTable('Payments');
+    return queryInterface.dropTable("Payments");
   },
 };
