@@ -26,12 +26,19 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 //import WalletConnect from "./components/auth/WalletConnect";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useEffect } from "react";
 // import { ParticleConnectkit } from "./components/auth/connectkit";
 const queryClient = new QueryClient();
 
 
 
 export default function App() {
+   useEffect(
+      ()=>{
+         
+      },
+   
+   []);
    return (
       <QueryClientProvider client={queryClient}>
          {/* <ParticleConnectkit> */}

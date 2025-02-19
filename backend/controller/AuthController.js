@@ -32,8 +32,6 @@ const registerUser = async (req, res) => {
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const accessToken = generateAccessToken({ name:name, email: email });
-    const refreshToken = generateRefreshToken({name:name,email: email });
 
     const newUser = await User.create({
       name,
@@ -42,6 +40,11 @@ const registerUser = async (req, res) => {
       address: address,
       phone: phone,
     });
+
+    
+    const accessToken = generateAccessToken({ id: newUser.id, email: newUser.email });
+    const refreshToken = generateRefreshToken({ id: newUser.id, email: newUser.email });
+
     res.status(201).json({
       accessToken,
       refreshToken,
