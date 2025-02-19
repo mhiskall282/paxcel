@@ -55,7 +55,7 @@ router.get('/tracking/:track_no', shipment.getShipmentByTransId);
 
 /**
  * @swagger
- * /api/shipments/create:
+ * /api/shipment/create:
  *   post:
  *      summary: Shipments of a user
  *      description: Create Shipments of users
@@ -70,19 +70,11 @@ router.get('/tracking/:track_no', shipment.getShipmentByTransId);
  *                   type: string
  *                  senderAddress: 
  *                   type: string
- *                  senderPhone: 
- *                   type: string
  *                  receiverName:
  *                   type: string
  *                  receiverAddress:
  *                   type: string
- *                  receiverPhone: 
- *                   type: string
  *                  weight:
- *                   type: string
- *                  from_location:
- *                   type: string
- *                  to_location:
  *                   type: string
  *                  deliveryType:
  *                   type: string
@@ -98,7 +90,7 @@ router.get('/tracking/:track_no', shipment.getShipmentByTransId);
  *       500:
  *         description: Internal Server Error
  */
-router.post("/shipments/create", shipment.createShipment)
+router.post("/shipment/create", shipment.createShipment)
 
 
 module.exports = router; 

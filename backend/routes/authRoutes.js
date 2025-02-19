@@ -66,4 +66,39 @@ router.post("/auth/register",auth.registerUser)
  */
 router.post("/auth/login",auth.loginUser)
 
+/**
+ * @swagger
+ * /api/refresh-token:
+ *   post:
+ *     summary: Refresh access token
+ *     description: Generate a new access token using a refresh token
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               refreshtoken:
+ *                 type: string
+ *                 description: The refresh token
+ *     responses:
+ *       200:
+ *         description: Access token refreshed successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 accessToken:
+ *                   type: string
+ *                   description: The new access token
+ *       401:
+ *         description: Token is required
+ *       403:
+ *         description: Invalid refresh token
+ */
+
+router.post('/refresh-token', auth.refreshAccessToken);
+
 module.exports = router;
