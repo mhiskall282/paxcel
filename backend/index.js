@@ -6,7 +6,8 @@ const mainRoutes = require("./routes/main.js");
 const authRoutes = require("./routes/authRoutes");
 const shipmentRoute = require("./routes/shipmentRoutes.js");
 const receiverRoute = require("./routes/receiverRoutes.js");
-const blockchainRoute = require("./routes/blockchainRoutes.js")
+const blockchainRoute = require("./routes/blockchainRoutes.js");
+const paymentRoute = require("./routes/paymentRoutes");
 
 const sequelize = require("./config/dbconfig.js");
 
@@ -35,8 +36,9 @@ app.use(
 app.use("/api", authRoutes);
 app.use("/api", mainRoutes);
 app.use("/api", shipmentRoute);
-app.use("/api",receiverRoute)
-app.use("/api",blockchainRoute)
+app.use("/api",receiverRoute);
+app.use("/api",blockchainRoute);
+app.use("/api",paymentRoute);
 
 
 
