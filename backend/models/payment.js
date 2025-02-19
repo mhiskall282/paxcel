@@ -8,6 +8,7 @@ const Payment = dbconfig.define("Payments",{
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
+      allowNull:false,
       autoIncrement: true,
     },
     transaction_id: {
@@ -38,6 +39,32 @@ const Payment = dbconfig.define("Payments",{
         model: Package,
         key: "id",
       },
+    },
+    paymentMethod:{
+      type: DataTypes.STRING,
+      allowNull:false,
+    },
+    cryptoType:{
+      type: DataTypes.STRING,
+      allowNull:true,
+      defaultValue:"ETH",
+    },
+    cardNumber:{
+      type: DataTypes.STRING,
+      allowNull:true,
+    },
+    cvc:{
+      type: DataTypes.STRING,
+      allowNull:true,
+    },
+    expiryDate:{
+      type: DataTypes.DATE,
+      allowNull:true,
+    },
+    status:{
+      type: DataTypes.STRING,
+      allowNull:false,
+      defaultValue:"pending",
     },
     amount: {
       type: DataTypes.DECIMAL,

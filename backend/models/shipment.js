@@ -37,7 +37,11 @@ const Shipment = dbconfig.define("Shipments",{
       type: DataTypes.STRING,
       allowNull: false,
     },
-
+    deliveryType: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue:"air"
+    },
     status: {
       type: DataTypes.STRING,
       allowNull: false,
